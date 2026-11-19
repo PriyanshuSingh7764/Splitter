@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Splitter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- SCREEN 1: login / signup -->
+    <main id="auth-screen" class="screen auth">
+      <section class="auth-hero">
+        <p class="logo">Room Khata</p>
+        <h1>Pay for the days you were actually there.</h1>
+
+        <div class="presence" aria-hidden="true">
+          <div class="presence-row">
+            <span class="who">Rahul</span><i class="on"></i><i class="on"></i
+            ><i class="on"></i><i></i><i></i><i class="on"></i
+            ><i class="on"></i>
+          </div>
+          <div class="presence-row">
+            <span class="who">Amit</span><i class="on"></i><i class="on"></i
+            ><i></i><i></i><i></i><i class="on"></i><i class="on"></i>
+          </div>
+          <div class="presence-row">
+            <span class="who">Sam</span><i class="on"></i><i class="on"></i
+            ><i class="on"></i><i class="on"></i><i class="on"></i
+            ><i class="on"></i><i class="on"></i>
+          </div>
+          <div class="presence-row">
+            <span class="who">Neha</span><i class="on"></i><i class="on"></i
+            ><i class="on"></i><i class="on"></i><i></i><i></i
+            ><i class="on"></i>
+          </div>
+          <div class="presence-days">
+            <span></span><b>M</b><b>T</b><b>W</b><b>T</b><b>F</b><b>S</b
+            ><b>S</b>
+          </div>
+        </div>
+
+        <p class="hero-note">
+          Groceries are shared only by the people home that day. Rent and wifi
+          are split equally.
+        </p>
+      </section>
+
+      <section class="auth-panel">
+        <div class="tabs">
+          <button type="button" id="tab-login" class="tab active">
+            Log in
+          </button>
+          <button type="button" id="tab-signup" class="tab">Sign up</button>
+        </div>
+
+        <form id="login-form">
+          <h2>Welcome back</h2>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" autocomplete="email" required />
+          <label for="login-password">Password</label>
+          <input
+            type="password"
+            id="login-password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="submit" class="btn">Log in</button>
+          <p class="msg" id="login-msg"></p>
+        </form>
+
+        <form id="signup-form" hidden>
+          <h2>Create your account</h2>
+          <label for="signup-name">Your name</label>
+          <input type="text" id="signup-name" autocomplete="name" required />
+          <label for="signup-email">Email</label>
+          <input type="email" id="signup-email" autocomplete="email" required />
+          <label for="signup-password">Password</label>
+          <input
+            type="password"
+            id="signup-password"
+            minlength="6"
+            autocomplete="new-password"
+            required
+          />
+          <button type="submit" class="btn">Create account</button>
+          <p class="msg" id="signup-msg"></p>
+        </form>
+      </section>
+    </main>
+
+    <!-- SCREEN 2: create or join a room -->
+    <main id="room-screen" class="screen centered" hidden>
+      <p class="logo">Room Khata</p>
+      <h1>Set up your room</h1>
+      <p class="tagline">
+        Create a new room, or join one with a code from your roommate.
+      </p>
+
+      <div class="room-grid">
+        <form id="create-room-form" class="card">
+          <h2>Create a room</h2>
+          <label for="room-name">Room name</label>
+          <input
+            type="text"
+            id="room-name"
+            placeholder="e.g. Flat 302"
+            required
+          />
+          <button type="submit" class="btn">Create room</button>
+        </form>
+
+        <form id="join-room-form" class="card">
+          <h2>Join a room</h2>
+          <label for="room-code">Room code</label>
+          <input
+            type="text"
+            id="room-code"
+            placeholder="6-letter code"
+            required
+          />
+          <button type="submit" class="btn btn-alt">Join room</button>
+        </form>
+      </div>
+      <p class="msg" id="room-msg"></p>
+      <button
+        type="button"
+        id="room-logout-btn"
+        class="btn btn-small btn-ghost"
+      >
+        Log out
+      </button>
+    </main>
+
+    <!-- SCREEN 3: dashboard -->
+    <div id="dashboard-screen" hidden>
+      <header class="topbar">
+        <div class="topbar-inner">
+          <div class="topbar-left">
+            <p class="logo">Room Khata</p>
+            <h1 id="dash-room-name">Room name</h1>
+          </div>
+          <div class="topbar-right">
+            <button
+              type="button"
+              id="copy-code-btn"
+              class="code-chip"
+              title="Copy room code"
+            >
+              <span>Room code (tap to copy)</span
+              ><strong id="dash-room-code">------</strong>
+            </button>
+            <span class="user-chip"
+              ><i class="avatar" id="dash-avatar">U</i
+              ><span id="dash-user-name">User</span></span
+            >
+            <button
+              type="button"
+              id="logout-btn"
+              class="btn btn-small btn-ghost"
+            >
+              Log out
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="screen wide">
+        <section class="stats">
+          <div class="stat stat-main">
+            <p class="stat-label">Your balance this month</p>
+            <p class="stat-value" id="stat-balance">₹0</p>
+            <p class="stat-hint">Positive means you get money back.</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Room spent</p>
+            <p class="stat-value" id="stat-total">₹0</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Days you were away</p>
+            <p class="stat-value" id="stat-absent">0</p>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <h2>Month summary</h2>
+            <div class="month-row">
+              <label for="month-picker">Month</label>
+              <input type="month" id="month-picker" />
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Roommate</th>
+                  <th class="num">Paid</th>
+                  <th class="num">Share</th>
+                  <th class="num">Balance</th>
+                </tr>
+              </thead>
+              <tbody id="summary-body"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="summary-empty">No expenses this month yet.</p>
+        </section>
+        <section class="panel">
+          <h2>Who pays whom</h2>
+          <ul id="settle-list" class="plain-list"></ul>
+          <p class="empty" id="settle-empty">Everyone is settled up.</p>
+        </section>
+        <div class="two-col">
+          <section class="panel">
+            <h2>Add expense</h2>
+            <form id="expense-form">
+              <label for="exp-title">What was it for?</label>
+              <input
+                type="text"
+                id="exp-title"
+                placeholder="e.g. Vegetables"
+                required
+              />
+
+              <div class="field-row">
+                <div>
+                  <label for="exp-amount">Amount (₹)</label>
+                  <input
+                    type="number"
+                    id="exp-amount"
+                    min="1"
+                    step="0.01"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="exp-date">Date</label>
+                  <input type="date" id="exp-date" required />
+                </div>
+              </div>
+
+              <label for="exp-type">Type</label>
+              <select id="exp-type">
+                <option value="usage">
+                  Depends on presence (groceries, gas)
+                </option>
+                <option value="fixed">
+                  Independent of presence (rent, wifi)
+                </option>
+              </select>
+
+              <button type="submit" class="btn">Add expense</button>
+              <p class="msg" id="expense-msg"></p>
+            </form>
+          </section>
+
+          <section class="panel">
+            <h2>Mark my absence</h2>
+            <form id="absence-form">
+              <div class="field-row">
+                <div>
+                  <label for="abs-from">Left on</label>
+                  <input type="date" id="abs-from" required />
+                </div>
+                <div>
+                  <label for="abs-to">Back on</label>
+                  <input type="date" id="abs-to" required />
+                </div>
+              </div>
+              <button type="submit" class="btn btn-alt">Save absence</button>
+              <p class="msg" id="absence-msg"></p>
+            </form>
+
+            <h3>Absences in this room</h3>
+            <ul id="absence-list" class="plain-list"></ul>
+            <p class="empty" id="absence-empty">Everyone is home.</p>
+          </section>
+        </div>
+
+        <section class="panel">
+          <h2>Expenses this month</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Item</th>
+                  <th>Type</th>
+                  <th>Added by</th>
+                  <th class="num">Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="expense-body"></tbody>
+            </table>
+          </div>
+          <p class="empty" id="expense-empty">Nothing added yet.</p>
+        </section>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
